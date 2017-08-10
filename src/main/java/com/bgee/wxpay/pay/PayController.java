@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bgee.wxpay.constants.PayConstants;
 import com.bgee.wxpay.util.xmlmap.XmlAndMap;
-import com.luckystar.constant.ProductConstant;
-import com.luckystar.util.Sha1Util;
-
 
 /**
  * 微信支付 controller  
@@ -73,7 +70,7 @@ public class PayController {
 		String body = "";
 		String attach = "";
 		String outTradeNo = "";
-		double money = 0.0d;
+		double money = 0.0d;			
 		
 //		调用 授权登录接口 返回的 code , 用来换取  openId
 		String code = request.getParameter("code");
@@ -103,29 +100,23 @@ public class PayController {
 		String paramXml = XmlAndMap.toXml(paramMap);
 		String prepayid = payService.getPrepayId(paramXml);
 		
-		SortedMap<String, String> finalpackage = new TreeMap<String, String>();
-		String appid2 = ProductConstant.WX_PAY_APPID;
-		String timestamp = Sha1Util.getTimeStamp();
-		String nonceStr2 = packageParams.get("nonce_str");
-		String prepay_id2 = "prepay_id="+prepay_id;
-		String packages = prepay_id2;
-		finalpackage.put("appId", appid2);  
-		finalpackage.put("timeStamp", timestamp);  
-		finalpackage.put("nonceStr", nonceStr2);  
-		finalpackage.put("package", packages);  
-		finalpackage.put("signType", "MD5");
-		String finalsign = reqHandler.createSign(finalpackage);
-		request.setAttribute("appid", appid2);
-		request.setAttribute("timeStamp", timestamp);
-		request.setAttribute("nonceStr", nonceStr2);
-		request.setAttribute("packageValue", packages);
+		SortedMap<String, Object> finalMap = new TreeMap<String, Object>();
+		finalMap.put("appId", PayConstants.WX_APPID);  
+		finalMap.put("timeStamp", System.currentTimeMillis() / 1000);  
+		finalMap.put("nonceStr", paramMap.get("nonce_str"));  
+		finalMap.put("package", "prepay_id=" + prepayid);  
+		finalMap.put("signType", "MD5");
+		String finalsign = payService.createSign(finalMap);
+		
+		
+		request.setAttribute("appid", PayConstants.WX_APPID);
+		request.setAttribute("timeStamp", finalMap.get("timeStamp"));
+		request.setAttribute("nonceStr", finalMap.get("nonceStr"));
+		request.setAttribute("packageValue", finalMap.get("package"));
 		request.setAttribute("sign", finalsign);
+		request.setAttribute("totalFee", money);
 		
-		request.setAttribute("totalFee", total_fee);
-		request.setAttribute("userId", userId);
-		request.setAttribute("recordString", recordString);
-		
-		return null;
+		return "buy/weixinpay_result";
 	}
 	
 	/**
