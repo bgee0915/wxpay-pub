@@ -130,4 +130,23 @@ public class PayService {
 		}
 	    return prepayid;
 	}
+	
+	
+	/**
+	 * 返回结果给微信
+	 * @param result 
+	 * @return
+	 */
+	public String returnResult (boolean result) {
+		return result ? 
+				"<xml>"
+				+ 	"<return_code><![CDATA[SUCCESS]]></return_code>"
+				+ 	"<return_msg><![CDATA[OK]]></return_msg>"
+				+"</xml>"  
+				:
+				"<xml>"
+				+ 	"<return_code><![CDATA[FAIL]]></return_code>"
+				+ 	"<return_msg><![CDATA[NO]]></return_msg>"
+				+"</xml>";
+	}
 }
