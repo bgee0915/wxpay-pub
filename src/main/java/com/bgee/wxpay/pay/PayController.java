@@ -157,7 +157,7 @@ public class PayController {
 				response.getWriter().write(payService.returnResult(true));
 			}
 			
-//			返回失败信息给微信, 
+//			返回失败信息给微信
 			response.getWriter().write(payService.returnResult(false));
 		} catch (IOException e) {
 			e.printStackTrace();
