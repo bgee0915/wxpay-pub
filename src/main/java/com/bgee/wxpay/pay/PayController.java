@@ -111,17 +111,17 @@ public class PayController {
 		finalMap.put("nonceStr", paramMap.get("nonce_str"));  
 		finalMap.put("package", "prepay_id=" + prepayid);  
 		finalMap.put("signType", "MD5");
-		String finalsign = payService.createSign(finalMap);
+		String finalsign = payService.createSign(finalMap);					// 支付签名
 		
 		
 		request.setAttribute("appid", PayConstants.WX_APPID);
 		request.setAttribute("timeStamp", finalMap.get("timeStamp"));
 		request.setAttribute("nonceStr", finalMap.get("nonceStr"));
-		request.setAttribute("packageValue", finalMap.get("package"));
-		request.setAttribute("sign", finalsign);
+		request.setAttribute("package", finalMap.get("package"));
+		request.setAttribute("paySign", finalsign);
 		request.setAttribute("totalFee", money);
 		
-		return "buy/weixinpay_result";
+		return "pay/pay";
 	}
 	
 	/**
