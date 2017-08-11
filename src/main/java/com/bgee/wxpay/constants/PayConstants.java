@@ -20,10 +20,10 @@ public class PayConstants {
 	public static final String WX_PARTNERKEY = "";
 	
 	/** 微信回调本地的支付接口 */
-	public static final String WX_CALLBACK_LOCAL_URL = "http://www.本项目域名.com/pay/topay";
+	public static final String WX_CALLBACK_LOCAL_URL = "http://www.本项目绑定的域名.com/pay/topay";
 	
 	/** 微信支付后通知本地接口 */
-	public static final String WX_NOTIFY_LOCAL_URL = "http://www.本项目域名.com/pay/notifypay";
+	public static final String WX_NOTIFY_LOCAL_URL = "http://www.本项目绑定的域名.com/pay/notifypay";
 	
 	/** 微信登录授权接口 */
 	public static final String WX_OAUTH2_URL = "https://open.weixin.qq.com/connect/oauth2/authorize";
